@@ -1,2 +1,1 @@
-console.log ("test");
-console.log ("testing lagi");
+const mongoose = require('mongoose');
