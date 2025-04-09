@@ -18,3 +18,23 @@ const getAllCountries = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 };
+
+const getCountryByName = async (req, res) => {
+    try {
+        const country = await Country.findOne({ 'name.common': req.params.name });
+        if (!country) return res.status(404).json({ message: 'Country not found' });
+        res.json(country);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+const getCountryByCode = async (req, res) => {
+    try {
+        const country = await Country.findOne({ code: req.params.code.toUpperCase() });
+        if (!country) return res.status(404).json({ message: 'Country not found' });
+        res.json(country);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
