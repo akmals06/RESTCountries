@@ -25,8 +25,8 @@ const getCountryByName = async (req, res) => {
         res.json(country);
     } catch (err) {
         res.status(500).json({ error: err.message });
-    };
-
+    }
+};
     const getCountryByCode = async (req, res) => {
     try {
         const country = await Country.findOne({ code: req.params.code.toUpperCase() });
