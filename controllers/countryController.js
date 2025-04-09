@@ -25,5 +25,24 @@ const getCountryByName = async (req, res) => {
         res.json(country);
     } catch (err) {
         res.status(500).json({ error: err.message });
+    };
+
+    const getCountryByCode = async (req, res) => {
+    try {
+        const country = await Country.findOne({ code: req.params.code.toUpperCase() });
+        if (!country) return res.status(404).json({ message: 'Country not found' });
+        res.json(country);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+const getCountriesByRegion = async (req, res) => {
+    try {
+        const countries = await Country.find({ region: req.params.region });
+        if (countries.length === 0) return res.status(404).json({ message: 'No countries found in this region' });
+        res.json(countries);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
     }
 };
