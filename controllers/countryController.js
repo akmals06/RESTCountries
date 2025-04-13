@@ -46,3 +46,14 @@ const getCountriesByRegion = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 };
+const getCountriesByLanguage = async (req, res) => {
+    try {
+        const countries = await Country.find({ ['languages.${req.params.lang}']: { $exists: true } });
+        if (countries.length === 0) return res.status(404).json({ message: 'No countries found for this language' });
+        res.json(countries);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+};
+
+module.exports = { addCountry, getAllCountries, getCountryByName, getCountryByCode, getCountriesByRegion, getCountriesByLanguage};
