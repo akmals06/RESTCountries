@@ -1,3 +1,4 @@
+const { config } = require('dotenv');
 const mongoose = require('mongoose');
 
 const CountrySchema = new mongoose.Schema({
@@ -19,6 +20,6 @@ const CountrySchema = new mongoose.Schema({
     region: { type: String, required: true },
     subregions: [String],
     translations: { type: Map, of: String }
-
 });
-module.exports = mongoose.model('Country',CountrySchema);
+
+module.exports = mongoose.model('Country', CountrySchema);
