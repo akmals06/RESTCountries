@@ -55,5 +55,5 @@ const getCountriesByLanguage = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 }; 
-//Export Constructor:
+//Exporting constructor/methods:
 module.exports = { addCountry, getAllCountries, getCountryByName, getCountryByCode, getCountriesByRegion, getCountriesByLanguage}; 
