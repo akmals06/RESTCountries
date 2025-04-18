@@ -18,6 +18,7 @@ const getAllCountries = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 };
+
 const getCountryByName = async (req, res) => {
     try {
         const country = await Country.findOne({ 'name.common': req.params.name });
@@ -27,7 +28,8 @@ const getCountryByName = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 };
-    const getCountryByCode = async (req, res) => {
+
+const getCountryByCode = async (req, res) => {
     try {
         const country = await Country.findOne({ code: req.params.code.toUpperCase() });
         if (!country) return res.status(404).json({ message: 'Country not found' });
@@ -46,9 +48,10 @@ const getCountriesByRegion = async (req, res) => {
         res.status(500).json({ error: err.message });
     }
 };
+
 const getCountriesByLanguage = async (req, res) => {
     try {
-        const countries = await Country.find({ ['languages.${req.params.lang}']: { $exists: true } });
+        const countries = await Country.find({ [`languages.${req.params.lang}`]: { $exists: true } });
         if (countries.length === 0) return res.status(404).json({ message: 'No countries found for this language' });
         res.json(countries);
     } catch (err) {
@@ -56,4 +59,4 @@ const getCountriesByLanguage = async (req, res) => {
     }
 }; 
 //Exporting constructor/methods:
-module.exports = { addCountry, getAllCountries, getCountryByName, getCountryByCode, getCountriesByRegion, getCountriesByLanguage}; 
+module.exports = { addCountry, getAllCountries, getCountryByName, getCountryByCode, getCountriesByRegion, getCountriesByLanguage }; 
