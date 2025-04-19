@@ -401,7 +401,7 @@ const deleteCountryRegion = async (req, res) => {
             { new: true }
         );
         if (!updated) return res.status(404).json({ error: 'negara tidak ditemukan' });
-        res.json({ message: 'berhasil menghapus region' });
+        res.json({ message: 'Berhasil menghapus region' });
     } catch (err) {
         res.status(500).json({ error: 'gagal menghapus region' });
     }
