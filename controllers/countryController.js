@@ -249,6 +249,94 @@ const updateCountryRegion = async (req, res) => {
     }
 };
 
+const updateCountrySubregions = async (req, res) => {
+    try {
+        const updated = await Country.findOneAndUpdate(
+            { code: req.params.code },
+            { subregions: req.body.subregions },
+            { new: true }
+        );
+        if (!updated) return res.status(404).json({ error: 'negara tidak ditemukan' });
+        res.json({ message: 'berhasil memperbarui subregions', subregions: updated.subregions });
+    } catch (err) {
+        res.status(500).json({ error: 'gagal memperbarui subregions' });
+    }
+};
+
+const updateCountryCurrency = async (req, res) => {
+    try {
+        const updated = await Country.findOneAndUpdate(
+            { code: req.params.code },
+            { currency: req.body.currency },
+            { new: true }
+        );
+        if (!updated) return res.status(404).json({ message: 'negara tidak ditemukan' });
+        res.json({ message: 'berhasil memperbarui currency', currency: updated.currency });
+    } catch (err) {
+        res.status(500).json({ error: 'gagal memperbarui currency' });
+    }
+};
+
+//---------------------------------------------------------------------------------
+//delete
+const deleteCountryCurrency = async (req, res) => {
+    try {
+        const updated = await Country.findOneAndUpdate(
+            { code: req.params.code },
+            { $unset: { currency: "" } },
+            { new: true }
+        );
+        if (!updated) return res.status(404).json({ message: 'negara tidak ditemukan' });
+        res.json({ message: 'berhasil menghapus currency' });
+    } catch (err) {
+        res.status(500).json({ error: 'gagal menghapus currency' });
+    }
+};
+
+const deleteCountryByCommonName = async (req, res) => {
+    try {
+        const country = await Country.findOneAndDelete({
+            'name.common': req.params.commonName
+        });
+
+        if (!country) {
+            return res.status(404).json({ message: 'negara tidak ditemukan' });
+        }
+
+        res.json({ message: 'negara dan semua atributnya berhasil dihapus' });
+    } catch (err) {
+        res.status(500).json({ error: 'gagal menghapus negara dan atributnya' });
+    }
+};
+
+const deleteCountryCode = async (req, res) => {
+    try {
+        const updated = await Country.findOneAndUpdate(
+            { code: req.params.code },
+            { $unset: { code: "" } },
+            { new: true }
+        );
+        if (!updated) return res.status(404).json({ message: 'negara tidak ditemukan' });
+        res.json({ message: 'berhasil menghapus code' });
+    } catch (err) {
+        res.status(500).json({ error: 'gagal menghapus code' });
+    }
+};
+
+const deleteCountryCodes = async (req, res) => {
+    try {
+        const updated = await Country.findOneAndUpdate(
+            { code: req.params.code },
+            { $unset: { codes: "" } },
+            { new: true }
+        );
+        if (!updated) return res.status(404).json({ message: 'negara tidak ditemukan' });
+        res.json({ message: 'berhasil menghapus codes' });
+    } catch (err) {
+        res.status(500).json({ error: 'gagal menghapus codes' });
+    }
+};
+
 
 module.exports = {
     addCountry,
@@ -273,5 +361,12 @@ module.exports = {
     updateCountryLanguages,
     updateCountryCapital,
     updateCountryCallingCode,
-    updateCountryRegion,  
+    updateCountryRegion,
+    updateCountrySubregions,
+    updateCountryCurrency,
+  
+    deleteCountryCurrency,
+    deleteCountryByCommonName,
+    deleteCountryCode,
+    deleteCountryCodes,   
 };
