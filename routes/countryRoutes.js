@@ -17,6 +17,12 @@ const {
 
   updateCountryName,
   updateCountryCode,
+  updateCountryCodes,
+  updateCountryDemonym,
+  updateCountryLanguages,
+  updateCountryCapital,
+  updateCountryCallingCode,
+  updateCountryRegion, 
 } = require('../controllers/countryController');
 
 const router = express.Router();
@@ -41,5 +47,11 @@ router.get('/countries/code/:code/subregions', getCountrySubregions);
 // update
 router.put('/countries/code/:code/name', updateCountryName);
 router.put('/countries/code/:code/code', updateCountryCode);
+router.put('/countries/code/:code/codes', updateCountryCodes);
+router.put('/countries/code/:code/demonym', updateCountryDemonym);
+router.put('/countries/code/:code/languages', updateCountryLanguages);
+router.put('/countries/code/:code/capital', updateCountryCapital);
+router.put('/countries/code/:code/callingCode', updateCountryCallingCode);
+router.put('/countries/code/:code/region', updateCountryRegion);
 
 module.exports = router;
