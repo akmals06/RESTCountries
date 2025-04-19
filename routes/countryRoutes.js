@@ -2,15 +2,14 @@ const express = require('express');
 const {
   addCountry,
   addCountriesBulk,
-  getAllCountries,
-  getCountryByName,
-  getCountryByCode,
-  getCountriesByRegion,
-  getCountriesByLanguage,
-  getCountriesBySubregion,
-  updateCountry,
-  patchCountry,
-  deleteCountry
+
+  getCountries,
+  getCountryName,
+  getCountryCurrency,
+  getCountryCode,
+  getCountryCodes,
+  getCountryDemonym,
+  getCountryLanguages,
 } = require('../controllers/countryController');
 
 const router = express.Router();
@@ -19,19 +18,13 @@ const router = express.Router();
 router.post('/countries', addCountry);
 router.post('/countries/bulk', addCountriesBulk);
 
-// read
-router.get('/countries', getAllCountries);
-router.get('/countries/name/:name', getCountryByName);
-router.get('/countries/code/:code', getCountryByCode);
-router.get('/countries/region/:region', getCountriesByRegion);
-router.get('/countries/language/:lang', getCountriesByLanguage);
-router.get('/countries/subregion/:sub', getCountriesBySubregion);
-
-// update
-router.put('/countries/code/:code', updateCountry);
-router.patch('/countries/code/:code', patchCountry);
-
-// delete
-router.delete('/countries/code/:code', deleteCountry);
+// get
+router.get('/countries', getCountries);
+router.get('/countries/code/:code/name', getCountryName);
+router.get('/countries/code/:code/currency', getCountryCurrency);
+router.get('/countries/code/:code/code', getCountryCode);
+router.get('/countries/code/:code/codes', getCountryCodes);
+router.get('/countries/code/:code/demonym', getCountryDemonym);
+router.get('/countries/code/:code/languages', getCountryLanguages);
 
 module.exports = router;
