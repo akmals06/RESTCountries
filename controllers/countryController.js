@@ -95,4 +95,16 @@ const updateCountry = async (req, res) => {
     }
 };
 //Exporting constructor/methods:
-module.exports = { addCountry, getAllCountries, getCountryByName, getCountryByCode, getCountriesByRegion, getCountriesByLanguage }; 
+module.exports = {
+    addCountry,
+    addCountriesBulk,
+    getAllCountries,
+    getCountryByName,
+    getCountryByCode,
+    getCountriesByRegion,
+    getCountriesByLanguage,
+    getCountriesBySubregion,
+    updateCountry,
+    patchCountry,
+    deleteCountry
+};
