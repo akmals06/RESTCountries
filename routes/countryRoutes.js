@@ -40,11 +40,11 @@ const {
 
 const router = express.Router();
 
-// create
+// Create
 router.post('/countries', addCountry);
 router.post('/countries/bulk', addCountriesBulk);
 
-// get
+// Get
 router.get('/countries', getCountries);
 router.get('/countries/code/:code/name', getCountryName);
 router.get('/countries/code/:code/currency', getCountryCurrency);
@@ -57,7 +57,7 @@ router.get('/countries/code/:code/callingCode', getCountryCallingCode);
 router.get('/countries/code/:code/region', getCountryRegion);
 router.get('/countries/code/:code/subregions', getCountrySubregions);
 
-// update
+// Update
 router.put('/countries/code/:code/name', updateCountryName);
 router.put('/countries/code/:code/currency', updateCountryCurrency);
 router.put('/countries/code/:code/code', updateCountryCode);
@@ -69,7 +69,7 @@ router.put('/countries/code/:code/callingCode', updateCountryCallingCode);
 router.put('/countries/code/:code/region', updateCountryRegion);
 router.put('/countries/code/:code/subregions', updateCountrySubregions);
 
-// delete
+// Delete
 router.delete('/countries/name/:commonName', deleteCountryByCommonName);
 router.delete('/countries/code/:code/currency', deleteCountryCurrency);
 router.delete('/countries/code/:code/code', deleteCountryCode);
