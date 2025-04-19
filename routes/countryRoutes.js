@@ -30,6 +30,12 @@ const {
   deleteCountryByCommonName,
   deleteCountryCode,
   deleteCountryCodes, 
+  deleteCountryDemonym,
+  deleteCountryLanguages,
+  deleteCountryCapital,
+  deleteCountryCallingCode,
+  deleteCountryRegion,
+  deleteCountrySubregions
 } = require('../controllers/countryController');
 
 const router = express.Router();
@@ -68,5 +74,11 @@ router.delete('/countries/name/:commonName', deleteCountryByCommonName);
 router.delete('/countries/code/:code/currency', deleteCountryCurrency);
 router.delete('/countries/code/:code/code', deleteCountryCode);
 router.delete('/countries/code/:code/codes', deleteCountryCodes);
+router.delete('/countries/code/:code/demonym', deleteCountryDemonym);
+router.delete('/countries/code/:code/languages', deleteCountryLanguages);
+router.delete('/countries/code/:code/capital', deleteCountryCapital);
+router.delete('/countries/code/:code/callingCode', deleteCountryCallingCode);
+router.delete('/countries/code/:code/region', deleteCountryRegion);
+router.delete('/countries/code/:code/subregions', deleteCountrySubregions);
 
 module.exports = router;
