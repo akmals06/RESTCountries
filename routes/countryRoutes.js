@@ -10,6 +10,13 @@ const {
   getCountryCodes,
   getCountryDemonym,
   getCountryLanguages,
+  getCountryCapital,
+  getCountryCallingCode,
+  getCountryRegion,
+  getCountrySubregions,
+  
+  updateCountryName,
+  updateCountryCode,  
 } = require('../controllers/countryController');
 
 const router = express.Router();
