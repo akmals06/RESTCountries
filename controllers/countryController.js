@@ -1,6 +1,7 @@
 const Country = require('../models/Country');
 
-// tambah satu negara
+//---------------------------------------------------------------------------------
+//add
 const addCountry = async (req, res) => {
     try {
         const newCountry = new Country(req.body);
@@ -11,130 +12,266 @@ const addCountry = async (req, res) => {
     }
 };
 
-// tambah banyak negara sekaligus
 const addCountriesBulk = async (req, res) => {
     try {
-        const countries = req.body;
-        if (!Array.isArray(countries)) {
+        if (!Array.isArray(req.body)) {
             return res.status(400).json({ error: 'data harus berupa array negara' });
         }
-        const result = await Country.insertMany(countries);
+        const result = await Country.insertMany(req.body);
         res.status(201).json({ message: 'berhasil menambahkan semua negara', countries: result });
     } catch (err) {
         res.status(500).json({ error: err.message || 'terjadi kesalahan saat menambahkan data' });
     }
 };
 
-// ambil semua negara
-const getAllCountries = async (req, res) => {
+//---------------------------------------------------------------------------------
+//get
+const getCountries = async (req, res) => {
     try {
-        const countries = await Country.find();
+        const countries = await Country.find();  // Mengambil semua data negara
         res.json(countries);
     } catch (err) {
-        res.status(500).json({ error: 'terjadi kesalahan saat mengambil data negara' });
+        res.status(500).json({ error: err.message || 'Terjadi kesalahan saat mengambil data negara' });
     }
 };
 
-// ambil berdasarkan nama
-const getCountryByName = async (req, res) => {
+const getCountryName = async (req, res) => {
     try {
-        const country = await Country.findOne({ 'name.common': req.params.name });
+        const country = await Country.findOne({ code: req.params.code });
         if (!country) return res.status(404).json({ message: 'negara tidak ditemukan' });
-        res.json(country);
+        res.json(country.name);
     } catch (err) {
-        res.status(500).json({ error: 'terjadi kesalahan saat mencari negara' });
+        res.status(500).json({ error: 'terjadi kesalahan saat mengambil name' });
     }
 };
 
-// ambil berdasarkan kode
-const getCountryByCode = async (req, res) => {
+const getCountryCurrency = async (req, res) => {
     try {
-        const code = req.params.code.toUpperCase();
-        const country = await Country.findOne({ code });
-        if (!country) return res.status(404).json({ message: 'kode negara tidak ditemukan' });
-        res.json(country);
+        const country = await Country.findOne({ code: req.params.code });
+        if (!country) return res.status(404).json({ message: 'negara tidak ditemukan' });
+        res.json(country.currency);
     } catch (err) {
-        res.status(500).json({ error: 'terjadi kesalahan saat mencari berdasarkan kode' });
+        res.status(500).json({ error: 'terjadi kesalahan saat mengambil currency' });
     }
 };
 
-// ambil berdasarkan region
-const getCountriesByRegion = async (req, res) => {
+const getCountryCode = async (req, res) => {
     try {
-        const countries = await Country.find({ region: req.params.region });
-        if (countries.length === 0) return res.status(404).json({ message: 'tidak ada negara di region ini' });
-        res.json(countries);
+        const country = await Country.findOne({ code: req.params.code });
+        if (!country) return res.status(404).json({ message: 'negara tidak ditemukan' });
+        res.json({ code: country.code });
     } catch (err) {
-        res.status(500).json({ error: 'terjadi kesalahan saat mengambil data region' });
+        res.status(500).json({ error: 'terjadi kesalahan saat mengambil code' });
     }
 };
 
-// ambil berdasarkan subregion
-const getCountriesBySubregion = async (req, res) => {
+const getCountryCodes = async (req, res) => {
     try {
-        const countries = await Country.find({ subregions: req.params.sub });
-        if (countries.length === 0) return res.status(404).json({ message: 'tidak ada negara di subregion ini' });
-        res.json(countries);
+        const country = await Country.findOne({ code: req.params.code });
+        if (!country) return res.status(404).json({ message: 'negara tidak ditemukan' });
+        res.json({ codes: country.codes });
     } catch (err) {
-        res.status(500).json({ error: 'terjadi kesalahan saat mengambil data subregion' });
+        res.status(500).json({ error: 'terjadi kesalahan saat mengambil codes' });
     }
 };
 
-// ambil berdasarkan bahasa
-const getCountriesByLanguage = async (req, res) => {
+const getCountryDemonym = async (req, res) => {
     try {
-        const lang = req.params.lang;
-        const countries = await Country.find({ [`languages.${lang}`]: { $exists: true } });
-        if (countries.length === 0) return res.status(404).json({ message: 'tidak ada negara yang menggunakan bahasa ini' });
-        res.json(countries);
+        const country = await Country.findOne({ code: req.params.code });
+        if (!country) return res.status(404).json({ message: 'negara tidak ditemukan' });
+        res.json({ demonym: country.demonym });
     } catch (err) {
-        res.status(500).json({ error: 'terjadi kesalahan saat mencari berdasarkan bahasa' });
+        res.status(500).json({ error: 'terjadi kesalahan saat mengambil demonym' });
     }
 };
 
-// update seluruh data negara
-const updateCountry = async (req, res) => {
+const getCountryLanguages = async (req, res) => {
     try {
-        const updated = await Country.findOneAndReplace({ code: req.params.code }, req.body, { new: true });
-        if (!updated) return res.status(404).json({ message: 'negara tidak ditemukan untuk diperbarui' });
-        res.json({ message: 'berhasil memperbarui data negara', country: updated });
+        const country = await Country.findOne({ code: req.params.code });
+        if (!country) return res.status(404).json({ error: 'negara tidak ditemukan' });
+        res.json(country.languages);
     } catch (err) {
-        res.status(400).json({ error: 'gagal memperbarui data negara' });
+        res.status(500).json({ error: 'terjadi kesalahan saat mengambil languages' });
     }
 };
 
-// patch sebagian data negara
-const patchCountry = async (req, res) => {
+const getCountryCapital = async (req, res) => {
     try {
-        const updated = await Country.findOneAndUpdate({ code: req.params.code }, req.body, { new: true });
-        if (!updated) return res.status(404).json({ message: 'negara tidak ditemukan untuk patch' });
-        res.json({ message: 'berhasil mengubah sebagian data', country: updated });
+        const country = await Country.findOne({ code: req.params.code });
+        if (!country) return res.status(404).json({ error: 'negara tidak ditemukan' });
+        res.json(country.capital);
     } catch (err) {
-        res.status(400).json({ error: 'gagal patch data negara' });
+        res.status(500).json({ error: 'terjadi kesalahan saat mengambil capital' });
     }
 };
 
-// hapus negara
-const deleteCountry = async (req, res) => {
+const getCountryCallingCode = async (req, res) => {
     try {
-        const deleted = await Country.findOneAndDelete({ code: req.params.code });
-        if (!deleted) return res.status(404).json({ message: 'negara tidak ditemukan untuk dihapus' });
-        res.json({ message: 'berhasil menghapus data negara' });
+        const country = await Country.findOne({ code: req.params.code });
+        if (!country) return res.status(404).json({ error: 'negara tidak ditemukan' });
+        res.json(country.callingCode);
     } catch (err) {
-        res.status(500).json({ error: 'gagal menghapus negara' });
+        res.status(500).json({ error: 'terjadi kesalahan saat mengambil calling code' });
     }
 };
+
+const getCountryRegion = async (req, res) => {
+    try {
+        const country = await Country.findOne({ code: req.params.code });
+        if (!country) return res.status(404).json({ error: 'negara tidak ditemukan' });
+        res.json(country.region);
+    } catch (err) {
+        res.status(500).json({ error: 'terjadi kesalahan saat mengambil region' });
+    }
+};
+
+const getCountrySubregions = async (req, res) => {
+    try {
+        const country = await Country.findOne({ code: req.params.code });
+        if (!country) return res.status(404).json({ error: 'negara tidak ditemukan' });
+        res.json(country.subregions);
+    } catch (err) {
+        res.status(500).json({ error: 'terjadi kesalahan saat mengambil subregions' });
+    }
+};
+
+//---------------------------------------------------------------------------------
+//update
+const updateCountryName = async (req, res) => {
+    try {
+        const updated = await Country.findOneAndUpdate(
+            { code: req.params.code },
+            { name: req.body.name },
+            { new: true }
+        );
+        if (!updated) return res.status(404).json({ message: 'negara tidak ditemukan' });
+        res.json({ message: 'berhasil memperbarui name', name: updated.name });
+    } catch (err) {
+        res.status(500).json({ error: 'gagal memperbarui name' });
+    }
+};
+
+const updateCountryCode = async (req, res) => {
+    try {
+        const updated = await Country.findOneAndUpdate(
+            { code: req.params.code },
+            { code: req.body.code },
+            { new: true }
+        );
+        if (!updated) return res.status(404).json({ message: 'negara tidak ditemukan' });
+        res.json({ message: 'berhasil memperbarui code', code: updated.code });
+    } catch (err) {
+        res.status(500).json({ error: 'gagal memperbarui code' });
+    }
+};
+
+const updateCountryCodes = async (req, res) => {
+    try {
+        const updated = await Country.findOneAndUpdate(
+            { code: req.params.code },
+            { codes: req.body.codes },
+            { new: true }
+        );
+        if (!updated) return res.status(404).json({ message: 'negara tidak ditemukan' });
+        res.json({ message: 'berhasil memperbarui codes', codes: updated.codes });
+    } catch (err) {
+        res.status(500).json({ error: 'gagal memperbarui codes' });
+    }
+};
+
+const updateCountryDemonym = async (req, res) => {
+    try {
+        const updated = await Country.findOneAndUpdate(
+            { code: req.params.code },
+            { demonym: req.body.demonym },
+            { new: true }
+        );
+        if (!updated) return res.status(404).json({ message: 'negara tidak ditemukan' });
+        res.json({ message: 'berhasil memperbarui demonym', demonym: updated.demonym });
+    } catch (err) {
+        res.status(500).json({ error: 'gagal memperbarui demonym' });
+    }
+};
+
+const updateCountryLanguages = async (req, res) => {
+    try {
+        const updated = await Country.findOneAndUpdate(
+            { code: req.params.code },
+            { languages: req.body.languages },
+            { new: true }
+        );
+        if (!updated) return res.status(404).json({ error: 'negara tidak ditemukan' });
+        res.json({ message: 'berhasil memperbarui languages', languages: updated.languages });
+    } catch (err) {
+        res.status(500).json({ error: 'gagal memperbarui languages' });
+    }
+};
+
+const updateCountryCapital = async (req, res) => {
+    try {
+        const updated = await Country.findOneAndUpdate(
+            { code: req.params.code },
+            { capital: req.body.capital },
+            { new: true }
+        );
+        if (!updated) return res.status(404).json({ error: 'negara tidak ditemukan' });
+        res.json({ message: 'berhasil memperbarui capital', capital: updated.capital });
+    } catch (err) {
+        res.status(500).json({ error: 'gagal memperbarui capital' });
+    }
+};
+
+const updateCountryCallingCode = async (req, res) => {
+    try {
+        const updated = await Country.findOneAndUpdate(
+            { code: req.params.code },
+            { callingCode: req.body.callingCode },
+            { new: true }
+        );
+        if (!updated) return res.status(404).json({ error: 'negara tidak ditemukan' });
+        res.json({ message: 'berhasil memperbarui calling code', callingCode: updated.callingCode });
+    } catch (err) {
+        res.status(500).json({ error: 'gagal memperbarui calling code' });
+    }
+};
+
+const updateCountryRegion = async (req, res) => {
+    try {
+        const updated = await Country.findOneAndUpdate(
+            { code: req.params.code },
+            { region: req.body.region },
+            { new: true }
+        );
+        if (!updated) return res.status(404).json({ error: 'negara tidak ditemukan' });
+        res.json({ message: 'berhasil memperbarui region', region: updated.region });
+    } catch (err) {
+        res.status(500).json({ error: 'gagal memperbarui region' });
+    }
+};
+
 
 module.exports = {
     addCountry,
     addCountriesBulk,
-    getAllCountries,
-    getCountryByName,
-    getCountryByCode,
-    getCountriesByRegion,
-    getCountriesByLanguage,
-    getCountriesBySubregion,
-    updateCountry,
-    patchCountry,
-    deleteCountry
+  
+    getCountries,
+    getCountryName,
+    getCountryCurrency,
+    getCountryCode,
+    getCountryCodes,
+    getCountryDemonym,
+    getCountryLanguages,
+    getCountryCapital,
+    getCountryCallingCode,
+    getCountryRegion,
+    getCountrySubregions,
+    
+    updateCountryName,
+    updateCountryCode,
+    updateCountryCodes,
+    updateCountryDemonym,
+    updateCountryLanguages,
+    updateCountryCapital,
+    updateCountryCallingCode,
+    updateCountryRegion,  
 };
