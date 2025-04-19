@@ -165,6 +165,90 @@ const updateCountryCode = async (req, res) => {
     }
 };
 
+const updateCountryCodes = async (req, res) => {
+    try {
+        const updated = await Country.findOneAndUpdate(
+            { code: req.params.code },
+            { codes: req.body.codes },
+            { new: true }
+        );
+        if (!updated) return res.status(404).json({ message: 'negara tidak ditemukan' });
+        res.json({ message: 'berhasil memperbarui codes', codes: updated.codes });
+    } catch (err) {
+        res.status(500).json({ error: 'gagal memperbarui codes' });
+    }
+};
+
+const updateCountryDemonym = async (req, res) => {
+    try {
+        const updated = await Country.findOneAndUpdate(
+            { code: req.params.code },
+            { demonym: req.body.demonym },
+            { new: true }
+        );
+        if (!updated) return res.status(404).json({ message: 'negara tidak ditemukan' });
+        res.json({ message: 'berhasil memperbarui demonym', demonym: updated.demonym });
+    } catch (err) {
+        res.status(500).json({ error: 'gagal memperbarui demonym' });
+    }
+};
+
+const updateCountryLanguages = async (req, res) => {
+    try {
+        const updated = await Country.findOneAndUpdate(
+            { code: req.params.code },
+            { languages: req.body.languages },
+            { new: true }
+        );
+        if (!updated) return res.status(404).json({ error: 'negara tidak ditemukan' });
+        res.json({ message: 'berhasil memperbarui languages', languages: updated.languages });
+    } catch (err) {
+        res.status(500).json({ error: 'gagal memperbarui languages' });
+    }
+};
+
+const updateCountryCapital = async (req, res) => {
+    try {
+        const updated = await Country.findOneAndUpdate(
+            { code: req.params.code },
+            { capital: req.body.capital },
+            { new: true }
+        );
+        if (!updated) return res.status(404).json({ error: 'negara tidak ditemukan' });
+        res.json({ message: 'berhasil memperbarui capital', capital: updated.capital });
+    } catch (err) {
+        res.status(500).json({ error: 'gagal memperbarui capital' });
+    }
+};
+
+const updateCountryCallingCode = async (req, res) => {
+    try {
+        const updated = await Country.findOneAndUpdate(
+            { code: req.params.code },
+            { callingCode: req.body.callingCode },
+            { new: true }
+        );
+        if (!updated) return res.status(404).json({ error: 'negara tidak ditemukan' });
+        res.json({ message: 'berhasil memperbarui calling code', callingCode: updated.callingCode });
+    } catch (err) {
+        res.status(500).json({ error: 'gagal memperbarui calling code' });
+    }
+};
+
+const updateCountryRegion = async (req, res) => {
+    try {
+        const updated = await Country.findOneAndUpdate(
+            { code: req.params.code },
+            { region: req.body.region },
+            { new: true }
+        );
+        if (!updated) return res.status(404).json({ error: 'negara tidak ditemukan' });
+        res.json({ message: 'berhasil memperbarui region', region: updated.region });
+    } catch (err) {
+        res.status(500).json({ error: 'gagal memperbarui region' });
+    }
+};
+
 
 module.exports = {
     addCountry,
@@ -183,5 +267,11 @@ module.exports = {
     getCountrySubregions,
     
     updateCountryName,
-    updateCountryCode, 
+    updateCountryCode,
+    updateCountryCodes,
+    updateCountryDemonym,
+    updateCountryLanguages,
+    updateCountryCapital,
+    updateCountryCallingCode,
+    updateCountryRegion,  
 };
