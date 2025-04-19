@@ -1,14 +1,16 @@
 const express = require('express');
-const { 
-    addCountry, 
-    getAllCountries, 
-    getCountryByName, 
-    getCountryByCode, 
-    getCountriesByRegion, 
-    getCountriesByLanguage,
-    addCountriesBulk,
-    getCountriesBySubregion,
-    updateCountry
+const {
+  addCountry,
+  addCountriesBulk,
+  getAllCountries,
+  getCountryByName,
+  getCountryByCode,
+  getCountriesByRegion,
+  getCountriesByLanguage,
+  getCountriesBySubregion,
+  updateCountry,
+  patchCountry,
+  deleteCountry
 } = require('../controllers/countryController');
 
 const router = express.Router();
@@ -27,5 +29,9 @@ router.get('/countries/subregion/:sub', getCountriesBySubregion);
 
 // update
 router.put('/countries/code/:code', updateCountry);
+router.patch('/countries/code/:code', patchCountry);
+
+// delete
+router.delete('/countries/code/:code', deleteCountry);
 
 module.exports = router;
