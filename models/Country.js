@@ -1,7 +1,7 @@
 const { config } = require('dotenv');
 const mongoose = require('mongoose');
 
-const CountrySchema = new mongoose.Schema({
+const CountrySchema = new mongoose.Schema({ //Skema country.js
     name: {
         common: { type: String, required: true },
         official: { type: String, required: true }
