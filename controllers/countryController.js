@@ -107,4 +107,11 @@ module.exports = {
     getCountryCodes,
     getCountryDemonym,
     getCountryLanguages,
+    getCountryCapital,
+    getCountryCallingCode,
+    getCountryRegion,
+    getCountrySubregions,
+    
+    updateCountryName,
+    updateCountryCode, 
 };
