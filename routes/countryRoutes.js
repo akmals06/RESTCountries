@@ -5,16 +5,27 @@ const {
     getCountryByName, 
     getCountryByCode, 
     getCountriesByRegion, 
-    getCountriesByLanguage 
+    getCountriesByLanguage,
+    addCountriesBulk,
+    getCountriesBySubregion,
+    updateCountry
 } = require('../controllers/countryController');
 
 const router = express.Router();
 
-router.post('/countries', addCountry); // Manually add a country
-router.get('/countries', getAllCountries); // Get all countries
-router.get('/countries/name/:name', getCountryByName); // Get by name
-router.get('/countries/code/:code', getCountryByCode); // Get by country code
-router.get('/countries/region/:region', getCountriesByRegion); // Get by region
-router.get('/countries/language/:lang', getCountriesByLanguage); // Get by language
+// create
+router.post('/countries', addCountry);
+router.post('/countries/bulk', addCountriesBulk);
+
+// read
+router.get('/countries', getAllCountries);
+router.get('/countries/name/:name', getCountryByName);
+router.get('/countries/code/:code', getCountryByCode);
+router.get('/countries/region/:region', getCountriesByRegion);
+router.get('/countries/language/:lang', getCountriesByLanguage);
+router.get('/countries/subregion/:sub', getCountriesBySubregion);
+
+// update
+router.put('/countries/code/:code', updateCountry);
 
 module.exports = router;
