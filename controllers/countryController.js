@@ -54,8 +54,25 @@ const getCountryBy = async (req, res) => {
     }
   };
 
+  // update
+const updateCountryBy = async (req, res) => {
+  try {
+    const { key, value } = req.params;
+    const updated = await Country.findOneAndUpdate({ [key]: value }, req.body, { new: true });
+
+    if (updated) {
+      res.json({ message: 'berhasil memperbarui data negara', data: updated });
+    } else {
+      res.status(404).json({ message: 'negara tidak ditemukan' });
+    }
+  } catch (err) {
+    res.status(500).json({ error: 'gagal memperbarui data' });
+  }
+};
+
 
 module.exports = {
   createCountry,
   getCountryBy,
+  updateCountryBy
 };
