@@ -70,9 +70,46 @@ const updateCountryBy = async (req, res) => {
   }
 };
 
+// delete
+const deleteCountry = async (req, res) => {
+    try {
+      const { key, value } = req.params;
+      const mode = req.query.mode || 'null';
+  
+      if (mode === 'delete') {
+        const deleted = await Country.findOneAndDelete({ [key]: value });
+  
+        if (deleted) {
+          res.json({ message: 'negara berhasil dihapus', data: deleted });
+        } else {
+          res.status(404).json({ message: 'negara tidak ditemukan' });
+        }
+  
+      } else if (mode === 'null') {
+        const updated = await Country.findOneAndUpdate(
+          { [key]: value },
+          { $set: { [key]: null } },
+          { new: true }
+        );
+  
+        if (updated) {
+          res.json({ message: `field '${key}' di-set ke null`, data: updated });
+        } else {
+          res.status(404).json({ message: 'negara tidak ditemukan' });
+        }
+  
+      } else {
+        res.status(400).json({ error: 'mode tidak valid. Gunakan "null" atau "delete"' });
+      }
+    } catch (err) {
+      res.status(500).json({ error: 'terjadi kesalahan saat menghapus atau mengubah field' });
+    }
+  };
 
+// Export module yang akan akan dipake supaya dapat diakses
 module.exports = {
-  createCountry,
-  getCountryBy,
-  updateCountryBy
+  createCountry,    //CREATE
+  getCountryBy,     //READ
+  updateCountryBy,  //UPDATE
+  deleteCountry,    //DELETE
 };
