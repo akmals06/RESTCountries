@@ -1,4 +1,5 @@
 const express = require('express');
+const router = express.Router();
 const {
   addCountry,
   addCountriesBulk,
@@ -38,7 +39,8 @@ const {
   deleteCountrySubregions
 } = require('../controllers/countryController');
 
-const router = express.Router();
+// create (post)
+router.post('/countries', createCountry);
 
 // Create
 router.post('/countries', addCountry);
@@ -80,5 +82,6 @@ router.delete('/countries/code/:code/capital', deleteCountryCapital);
 router.delete('/countries/code/:code/callingCode', deleteCountryCallingCode);
 router.delete('/countries/code/:code/region', deleteCountryRegion);
 router.delete('/countries/code/:code/subregions', deleteCountrySubregions);
+
 
 module.exports = router;
