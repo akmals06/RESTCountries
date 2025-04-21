@@ -1,6 +1,18 @@
 const Country = require('../models/Country');
 
-// create
+/* Catatan Penting:
+
+    Kami menggunakan method/constructor yang dapat mengambil response user dalam bentuk endpoint apapun dalam 1 constructor saja
+    baik dalam bentuk countries, currency, name, symbol, dan lain lain, berikut merupakan daftar daftar sumber yang kami gunakan
+    untuk dapat mendapatkan inspirasi logic untuk kode yang kami gunakan:
+
+    https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map
+    https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/values
+    https://youtu.be/uXRwk2pALco?si=-YP_Z_-migUh_aM3
+    
+*/
+
+// Create
 const createCountry = async (req, res) => {
   try {
     const data = req.body;
@@ -18,7 +30,7 @@ const createCountry = async (req, res) => {
   }
 };
 
-// read
+// Read
 const getCountryBy = async (req, res) => {
     try {
       const { key, value } = req.params;
@@ -54,7 +66,7 @@ const getCountryBy = async (req, res) => {
     }
   };
 
-  // update
+// Update
 const updateCountryBy = async (req, res) => {
   try {
     const { key, value } = req.params;
@@ -70,7 +82,7 @@ const updateCountryBy = async (req, res) => {
   }
 };
 
-// delete
+// Delete
 const deleteCountry = async (req, res) => {
     try {
       const { key, value } = req.params;
