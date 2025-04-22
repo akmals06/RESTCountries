@@ -6,10 +6,10 @@ const Country = require('../models/Country');
     baik dalam bentuk countries, currency, name, symbol, dan lain lain, berikut merupakan daftar daftar sumber yang kami gunakan
     untuk dapat mendapatkan inspirasi logic untuk kode yang kami gunakan:
 
-    https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map
-    https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/values
-    https://youtu.be/uXRwk2pALco?si=-YP_Z_-migUh_aM3
-    
+    https://stackoverflow.com/questions/49335930/add-multiple-key-value-pairs-in-a-javascript-object
+    https://www.reddit.com/r/learnjavascript/comments/tt5emt/how_to_retrieve_multiple_keys_in_one_go_from_an/
+    https://stackoverflow.com/questions/38171834/how-do-i-add-multiple-key-and-values-to-an-object-from-a-function-in-javascript
+    https://community.postman.com/t/how-to-dynamically-pass-array-of-values-for-multiple-keys/57969
 */
 
 // Create
@@ -38,7 +38,17 @@ const getCountryBy = async (req, res) => {
   
       if (key === 'all') {
         countries = await Country.find();
-  
+
+/* Catatan Penting:
+
+    Kami menggunakan condisi if/else khusus untuk field "languages" dikarenakan field tersebut merupakan tipe data Map, sehingga kami nilai perlu dibuat penanganan khusus.
+    berikut merupakan daftar daftar sumber yang kami gunakan untuk dapat mendapatkan inspirasi logic untuk kode yang kami gunakan:
+
+    https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map
+    https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/values
+    https://youtu.be/uXRwk2pALco?si=-YP_Z_-migUh_aM3
+    
+*/
       } else if (key === 'languages') {
         const all = await Country.find();
         countries = all.filter(c => {
