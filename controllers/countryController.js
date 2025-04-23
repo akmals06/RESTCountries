@@ -80,7 +80,7 @@ const getCountryBy = async (req, res) => {
 const updateCountryBy = async (req, res) => {
   try {
     const { key, value } = req.params;
-    const updated = await Country.findOneAndUpdate({ [key]: value }, req.body, { new: true });
+    const updated = await Country.findOneAndUpdate({ [key]: value }, { $set: req.body }, { new: true });
 
     if (updated) {
       res.json({ message: 'berhasil memperbarui data negara', data: updated });
